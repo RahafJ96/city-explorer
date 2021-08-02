@@ -21,28 +21,31 @@ class Main extends React.Component {
             showMap: false,
             errMsg: 'Unable to Geocode !! ',
             displayErr: false,
-            showInfo: false
+            showInfo: false,
+            city_name:''
 
         }
-        console.log(this.state.showInfo);
     }
 
     getLocationData = async (event) => {
         event.preventDefault();
 
         let cityName = event.target.city.value;
-        //  console.log(cityName);
+         console.log(cityName);
 
         let URL = `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_KEY}&q=${cityName}&format=json`;
+        let URLweather = `http://localhost:3001/getWeatherInfo?city_name=Amman`
 
         try {
 
             let locResult = await axios.get(URL);
+            let weatherResult = await axios.get(URLweather);
 
             this.setState({
                 displayName: locResult.data[0].display_name,
                 lat: locResult.data[0].lat,
                 lon: locResult.data[0].lon,
+                city_name:weatherResult.city_name,
                 showMap: true,
                 showInfo: true,
 
@@ -51,7 +54,7 @@ class Main extends React.Component {
 
         catch {
             this.setState({
-                // displayMap:false,
+                displayMap:false,
                 displayErr: true,
 
             })
@@ -85,12 +88,14 @@ class Main extends React.Component {
                             </Col>
                             <Col xs="auto" className="my-1">
                                 <Button type="submit">Explore!</Button>
+                        <p>{this.state.city_name}</p>
                             </Col>
                         </Row>
                     </Form>
                     <Card onChange={this.getLocationData} showInfo={this.state.showInfo}>
                         
                         <Card.Body>
+                            
                             <h4>{this.state.displayName}</h4>
                             <h6>Latitude:</h6>{this.state.lat} <h6>Longitude:</h6>{this.state.lon}<br/>
                     {
@@ -101,13 +106,6 @@ class Main extends React.Component {
                     }
                         </Card.Body>
                     </Card>
-
-                    <p>
-
-                    </p>
-
-
-
 
                 </div>
             </>
