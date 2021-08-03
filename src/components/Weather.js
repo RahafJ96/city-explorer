@@ -3,10 +3,10 @@ import React from 'react';
 class Weather extends React.Component {
   render() {
     return(
-      this.props.weather.map((day, i) => (
+      this.props.weather.map((item) => (
         <div>
-          <p><h6>Day:</h6> {day.date}</p>
-          <p><h6>Description:</h6> {day.description}
+          <p><h6>Date:</h6> {item.date}</p>
+          <p><h6>Description:</h6> {item.description}
           <br/>____ ____ ____ </p>
         </div>
       ))

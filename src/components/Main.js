@@ -14,7 +14,7 @@ class Main extends React.Component {
             displayMap: false,
             errorMessage: '',
             latitude: '',
-            location: '',
+            loc: '',
             longitude: '',
             searchQuery: '',
             weather: [],
@@ -29,30 +29,33 @@ class Main extends React.Component {
 
     displayLatLon = async () => {
         const url = `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_MAP_KEY}&q=${this.state.searchQuery}&format=json`;
-        let location;
+        let loc;
+
         try {
-            location = await axios.get(url)
+            loc = await axios.get(url)
             this.setState({
-                location: location.data[0].display_name,
-                latitude: location.data[0].lat,
-                longitude: location.data[0].lon,
+                loc: loc.data[0].display_name,
+                latitude: loc.data[0].lat,
+                longitude: loc.data[0].lon,
                 displayMap: true,
                 displayError: false
             });
-            this.displayWeather(location.data[0].lat, location.data[0].lon)
+            this.displayWeather(loc.data[0].lat, loc.data[0].lon)
 
         } catch (error) {
+            
             this.setState({
                 displayMap: false,
                 displayError: true,
-                errorMessage: error.response.status + ': ' + error.response.data.error
+                errorMessage: "ERROR"
             });
         }
     }
 
     displayWeather = async (lat, lon) => {
         try {
-            const weather = await axios.get(`${process.env.REACT_APP_SERVER}/weather`, { params: { latitude: lat, longitude: lon, searchQuery: this.state.searchQuery } });
+            const weather = await axios.get(`http://localhost:3001/weather?searchQuery=${this.state.searchQuery}&lon=${this.state.longitude}&lat=${this.state.latitude}`);
+            console.log(weather);
             this.setState({
                 weather: weather.data
             })
@@ -60,7 +63,7 @@ class Main extends React.Component {
             this.setState({
                 displayMap: false,
                 displayError: true,
-                errorMessage: error.response.status + ': ' + error.response.data.error
+                errorMessage: "ERROR"
             })
         }
     }
@@ -74,7 +77,6 @@ class Main extends React.Component {
                             updateCity={this.updateCity}
                             displayLatLon={this.displayLatLon}
                             hasError={this.state.displayError}
-                            errorMessage={this.state.errorMessage}
                         />
                     </Col>
                 </Row>
@@ -83,7 +85,7 @@ class Main extends React.Component {
                         <Row>
                             <Col>
                                 <GCS
-                                    city={this.state.location}
+                                    city={this.state.loc}
                                     lat={this.state.latitude}
                                     lon={this.state.longitude}
                                 />
@@ -93,7 +95,7 @@ class Main extends React.Component {
                             <Col>
                                 <Map
                                     img_url={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_MAP_KEY}&center=${this.state.latitude},${this.state.longitude}&format=jpg`}
-                                    city={this.state.location}
+                                    city={this.state.loc}
                                 />
                             </Col>
                         </Row>

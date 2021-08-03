@@ -5,7 +5,7 @@ class LatLon extends React.Component {
     return(
       <>
         <br/>
-        <h4 className="text-center">Welcome to {this.props.city}</h4>
+        <h4 className="text-center">{this.props.city}</h4>
         <p className="text-center">{this.props.city} is located at {this.props.lat} by {this.props.lon}</p>
       </>
     )
