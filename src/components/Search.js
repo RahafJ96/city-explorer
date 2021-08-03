@@ -3,8 +3,8 @@ import {Form,Button,Alert} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 class Search extends React.Component {
-  handleSubmit = (e) => {
-    e.preventDefault();
+  handleSubmit = (event) => {
+    event.preventDefault();
     this.props.displayLatLon();
   }
 

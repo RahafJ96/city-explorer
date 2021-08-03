@@ -17,12 +17,14 @@ class Main extends React.Component {
             location: '',
             longitude: '',
             searchQuery: '',
-            weather: []
+            weather: [],
         }
     }
 
-    updateCity = (e) => {
-        this.setState({ searchQuery: e.target.value });
+    updateCity = (event) => {
+        this.setState({ 
+        searchQuery: event.target.value 
+        });
     }
 
     displayLatLon = async () => {
@@ -46,8 +48,6 @@ class Main extends React.Component {
                 errorMessage: error.response.status + ': ' + error.response.data.error
             });
         }
-
-        // this.displayWeather(location.data[0].lat, location.data[0].lon)
     }
 
     displayWeather = async (lat, lon) => {
