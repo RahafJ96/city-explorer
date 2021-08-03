@@ -1,114 +1,112 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Form from 'react-bootstrap/Form';
-import { Col } from 'react-bootstrap';
-import { Row } from 'react-bootstrap';
-import { Button } from 'react-bootstrap';
+import { Container, Row, Col, } from 'react-bootstrap';
+import Search from './Search';
 import axios from 'axios';
-import Card from 'react-bootstrap/Card';
-import App from '../App';
-// import './App.css';
-
+import GCS from './GCS';
+import Map from './Map';
+import Weather from './Weather';
 
 class Main extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
-            displayName: '',
-            lat: '',
-            lon: '',
-            showMap: false,
-            errMsg: 'Unable to Geocode !! ',
-            displayErr: false,
-            showInfo: false,
-            city_name:''
-
+            displayError: false,
+            displayMap: false,
+            errorMessage: '',
+            latitude: '',
+            location: '',
+            longitude: '',
+            searchQuery: '',
+            weather: []
         }
     }
 
-    getLocationData = async (event) => {
-        event.preventDefault();
+    updateCity = (e) => {
+        this.setState({ searchQuery: e.target.value });
+    }
 
-        let cityName = event.target.city.value;
-         console.log(cityName);
-
-        let URL = `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_KEY}&q=${cityName}&format=json`;
-        let URLweather = `http://localhost:3001/getWeatherInfo?city_name=Amman`
-
+    displayLatLon = async () => {
+        const url = `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_MAP_KEY}&q=${this.state.searchQuery}&format=json`;
+        let location;
         try {
-
-            let locResult = await axios.get(URL);
-            let weatherResult = await axios.get(URLweather);
-
+            location = await axios.get(url)
             this.setState({
-                displayName: locResult.data[0].display_name,
-                lat: locResult.data[0].lat,
-                lon: locResult.data[0].lon,
-                city_name:weatherResult.city_name,
-                showMap: true,
-                showInfo: true,
+                location: location.data[0].display_name,
+                latitude: location.data[0].lat,
+                longitude: location.data[0].lon,
+                displayMap: true,
+                displayError: false
+            });
+            this.displayWeather(location.data[0].lat, location.data[0].lon)
 
-            })
+        } catch (error) {
+            this.setState({
+                displayMap: false,
+                displayError: true,
+                errorMessage: error.response.status + ': ' + error.response.data.error
+            });
         }
 
-        catch {
-            this.setState({
-                displayMap:false,
-                displayErr: true,
-
-            })
-        }
-
+        // this.displayWeather(location.data[0].lat, location.data[0].lon)
     }
 
-    // getShow=()=>{
-    //     this.setState({
-    //         showInfo=true,
-
-    //     })
-    // }
-
-
+    displayWeather = async (lat, lon) => {
+        try {
+            const weather = await axios.get(`${process.env.REACT_APP_SERVER}/weather`, { params: { latitude: lat, longitude: lon, searchQuery: this.state.searchQuery } });
+            this.setState({
+                weather: weather.data
+            })
+        } catch (error) {
+            this.setState({
+                displayMap: false,
+                displayError: true,
+                errorMessage: error.response.status + ': ' + error.response.data.error
+            })
+        }
+    }
 
     render() {
         return (
-            <>
-                <div>
-                    <h1>
-                        City Explorer
-                    </h1>
-                    <Form onSubmit={this.getLocationData}>
-                        <Row className="align-items-center">
-                            <Form.Label htmlFor="inlineFormInputName" visuallyHidden>
-                                City Name:
-                            </Form.Label>
-                            <Col sm={3} className="my-1">
-                                <Form.Control id="inlineFormInputName" placeholder="Enter City" name='city' />
-                            </Col>
-                            <Col xs="auto" className="my-1">
-                                <Button type="submit">Explore!</Button>
-                        <p>{this.state.city_name}</p>
+            <Container fluid>
+                <Row>
+                    <Col>
+                        <Search
+                            updateCity={this.updateCity}
+                            displayLatLon={this.displayLatLon}
+                            hasError={this.state.displayError}
+                            errorMessage={this.state.errorMessage}
+                        />
+                    </Col>
+                </Row>
+                {this.state.displayMap &&
+                    <>
+                        <Row>
+                            <Col>
+                                <GCS
+                                    city={this.state.location}
+                                    lat={this.state.latitude}
+                                    lon={this.state.longitude}
+                                />
                             </Col>
                         </Row>
-                    </Form>
-                    <Card onChange={this.getLocationData} showInfo={this.state.showInfo}>
-                        
-                        <Card.Body>
-                            
-                            <h4>{this.state.displayName}</h4>
-                            <h6>Latitude:</h6>{this.state.lat} <h6>Longitude:</h6>{this.state.lon}<br/>
-                    {
-                        this.state.showMap && <img src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_KEY}&center=${this.state.lat},${this.state.lon}& zoom=18`} alt="map" />
-                    }
-                    {
-                        this.state.displayErr && this.state.errMsg
-                    }
-                        </Card.Body>
-                    </Card>
-
-                </div>
-            </>
+                        <Row>
+                            <Col>
+                                <Map
+                                    img_url={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_MAP_KEY}&center=${this.state.latitude},${this.state.longitude}&format=jpg`}
+                                    city={this.state.location}
+                                />
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Weather
+                                    weather={this.state.weather}
+                                />
+                            </Col>
+                        </Row>
+                    </>
+                }
+            </Container>
         )
     }
 }
