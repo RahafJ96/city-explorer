@@ -12,19 +12,19 @@ class Map extends React.Component {
         return (
 
             <>
-                <Container fluid="md">
+                <Container>
                     {this.props.showCard &&
                         <Card className="text-center">
                             {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
                             <Card.Body>
                                 <Card.Title>{this.props.displayName}</Card.Title>
-                                <Card.Text>{this.props.displayName}is located at {this.props.lat} by <h8>{this.props.lon}</h8>
+                                <Card.Text>{this.props.displayName}is located at {this.props.lat} by{this.props.lon}
                                 </Card.Text>
                             </Card.Body>
                         </Card>
                     }
                     {this.props.showMap &&
-                    <div className="rounded mx-auto d-block">
+                    <div className="mx-auto d-block">
                             <br/>
                             <Card.Img variant="top" src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_KEY}&center=${this.props.lat},${this.props.lon}&size=${window.innerWidth}x300&format=jpg&zoom=12`} rounded fluid />
                             <br/><br/>
