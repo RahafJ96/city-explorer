@@ -2,12 +2,10 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Card from 'react-bootstrap/Card';
 import {Row,Col} from 'react-bootstrap';
-import Image from 'react-bootstrap/Image'
-
 
 
 class Movies extends React.Component {
-
+    
     render() {
         return (
             <>
