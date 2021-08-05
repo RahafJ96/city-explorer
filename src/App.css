@@ -1,3 +1,21 @@
 .buttonSearch{
-  margin-left: 700px;
+  width: 90%;
+  margin-bottom: 1%;
+}
+
+
+.inputButton{
+  width: 70%;
+  margin-bottom: 0.5%;
+}
+strong{
+  font-weight: bold;
+}
+
+.formSet{
+  margin: 2%;
+  font-size: 25px;
+}
+.seachLabel{
+  margin-right: 1%;
 }

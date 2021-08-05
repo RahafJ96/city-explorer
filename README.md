@@ -1,4 +1,4 @@
-# [City Explorer](https://city-exploror-rahaf.netlify.app/)
+# [City Explorer](https://610bba0d47fe6cc73b49c564--city-exploror-rahaf.netlify.app/)
 
 **Author**: Rahaf Al-Jazzazi
 
@@ -11,24 +11,29 @@
 
 ## Getting Started
 <!-- What are the steps that a user must take in order to build this app on their own machine and get it running? -->
+[City Explorer Website](https://610bba0d47fe6cc73b49c564--city-exploror-rahaf.netlify.app/)
 
+[City Explorer Website-server](https://git.heroku.com/city-explorer-ra.git)
 
 ## Credit and Collaborations
 <!-- Give credit (and a link) to other people or resources that helped you build this application. -->
-
-
+#### [LocationIQ](https://locationiq.com/)
+#### [The Movie DB](https://www.themoviedb.org/)
+#### [WeatherBit](weatherbit.io)
 
 ## Time Estimates
 
 ### Name of feature:
-Fetures that I used in the lab Forms, arrow functions, axios and try&catch.
+Fetures that I used in the lab Forms,map&find methods, arrow functions, axios and try&catch.
+Add it to the Heroku server (backend), Netlify(frontend)
+
 
 ### Estimate of time needed to complete:
 4 hours
 
 ### Start time: 
-13:00
+Sunday 13:00
 ### Finish time: 
-20:00 
+Thuesday 13:00 
 ### Actual time needed to complete:
-04 hours
+5 Days with all the features that are required
