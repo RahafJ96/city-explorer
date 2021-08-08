@@ -58,7 +58,7 @@ class App extends React.Component {
 
       let moviesResult = await axios.get(urlMovies)
       this.setState({
-        movies: moviesResult.data.data
+        movies: moviesResult.data
       })
     }
     catch(error) {
