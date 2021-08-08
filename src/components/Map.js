@@ -1,6 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Col, Container, Row, Card } from 'react-bootstrap';
+import { Container, Alert, Card } from 'react-bootstrap';
 import '../App.css';
 
 
@@ -16,7 +16,7 @@ class Map extends React.Component {
                     {this.props.showCard &&
                         <Card className="text-center">
                             {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
-                            <Card.Body>
+                            <Card.Body className="cardMap">
                                 <Card.Title>{this.props.displayName}</Card.Title>
                                 <Card.Text>{this.props.displayName}is located at {this.props.lat} by{this.props.lon}
                                 </Card.Text>
@@ -30,7 +30,14 @@ class Map extends React.Component {
                             <br/><br/>
                     </div>
                     }
-                    {this.props.displayErr &&this.props.errorMsg}
+                    {this.props.displayErr &&
+                              <>
+                              <Alert variant="danger">
+                                <strong className="mr-auto">Error {' '}</strong>
+                                {this.props.errorMsg}, please try another search.
+                              </Alert>
+                            </>
+                            }
                 </Container>
 
             </>
