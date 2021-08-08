@@ -18,14 +18,13 @@ class App extends React.Component {
       displayName: '',
       lon: '',
       lat: '',
-      errorMsg: 'Bad Response',
+      errorMsg: '',
       displayErr: false,
       showMap: false,
       showCard: false,
       weather: [],
-      movies: []
+      movies: [],
     }
-
   }
 
 
@@ -60,11 +59,13 @@ class App extends React.Component {
         movies: moviesResult.data
       })
     }
-    catch {
+    catch(error) {
       this.setState({
         showMap: false,
         displayErr: true,
-        showCard: false
+        showCard: false,
+        errorMsg: error.response.status + ': ' + error.response.data.error ,
+
       }
       )
     }
@@ -79,12 +80,13 @@ class App extends React.Component {
   render() {
     return (
       <>
+      <section className="backgroundColor">
         <Header/>
 
         <Form onSubmit={this.getLocationData} className="text-center formSet">
           <Form.Label className='seachLabel'><h4>Search for a City here: </h4></Form.Label>
           <input className="inputButton" type='text' placeholder='Enter City' name='city' />
-          <button className="buttonSearch btn-primary text-white btn-lg" type='submit'>Explore!</button>
+          <button className=" text-white btn-lg buttonSearch" type='submit'>Explore!</button>
         </Form>
 
         <Map
@@ -100,6 +102,7 @@ class App extends React.Component {
         <Weather showCard={this.state.showCard} weather={this.state.weather} ></Weather>
         <Movies showCard={this.state.showCard} movies={this.state.movies} ></Movies>
         <Footer/>
+        </section>
       </>
 
     )
