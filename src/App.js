@@ -48,13 +48,13 @@ class App extends React.Component {
         displayErr: false,
       })
 
-      const urlServer = `${process.env.REACT_APP_SERVER}/getWeather?lat=${this.state.lat}&lon=${this.state.lon}&cityName=${city}`
+      const urlServer = `http://localhost:3010/getWeather?lat=${this.state.lat}&lon=${this.state.lon}&cityName=${city}`
       let weatherResult = await axios.get(urlServer)
       this.setState({
         weather: weatherResult.data,
         showCard: true
       })
-      const urlMovies = `${process.env.REACT_APP_SERVER}/movies?city=${city}`
+      const urlMovies = `http://localhost:3010/movies?city=${city}`
       let moviesResult = await axios.get(urlMovies)
       this.setState({
         movies: moviesResult.data
