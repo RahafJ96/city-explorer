@@ -18,14 +18,13 @@ class App extends React.Component {
       displayName: '',
       lon: '',
       lat: '',
-      errorMsg: 'Bad Response',
+      errorMsg: '',
       displayErr: false,
       showMap: false,
       showCard: false,
       weather: [],
-      movies: []
+      movies: [],
     }
-
   }
 
 
@@ -35,7 +34,7 @@ class App extends React.Component {
   getLocationData = async (event) => {
     event.preventDefault();
     const city = event.target.city.value;
-
+    //https://eu1.locationiq.com/v1/search.php?key=pk.5d7b4155994109b039ad47221cde522e&q=amman&format=json
     const URL = `https://eu1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_KEY}&q=${city}&format=json`;
     try {
 
@@ -47,6 +46,7 @@ class App extends React.Component {
         showMap: true,
         displayErr: false,
       })
+      //https://city-explorer-ra.herokuapp.com/getWeather?lat=31.95&lon=35.91&cityName=amman
 
       const urlServer = `http://localhost:3010/getWeather?lat=${this.state.lat}&lon=${this.state.lon}&cityName=${city}`
       let weatherResult = await axios.get(urlServer)
@@ -54,17 +54,20 @@ class App extends React.Component {
         weather: weatherResult.data,
         showCard: true
       })
-      const urlMovies = `${process.env.REACT_APP_SERVER}/movies?city=${city}`
+      const urlMovies = `http://localhost:3010/movies?city=${city}`
+
       let moviesResult = await axios.get(urlMovies)
       this.setState({
-        movies: moviesResult.data
+        movies: moviesResult.data.data
       })
     }
-    catch {
+    catch(error) {
       this.setState({
         showMap: false,
         displayErr: true,
-        showCard: false
+        showCard: false,
+        errorMsg: 'ERROR',
+
       }
       )
     }
@@ -74,17 +77,18 @@ class App extends React.Component {
     this.setState({
       weatherInfoArr: weatherData.data
     })
-    console.log(weatherData);
+    // console.log(weatherData);
   }
   render() {
     return (
       <>
+      <section className="backgroundColor">
         <Header/>
 
         <Form onSubmit={this.getLocationData} className="text-center formSet">
           <Form.Label className='seachLabel'><h4>Search for a City here: </h4></Form.Label>
           <input className="inputButton" type='text' placeholder='Enter City' name='city' />
-          <button className="buttonSearch btn-primary text-white btn-lg" type='submit'>Explore!</button>
+          <button className=" text-white btn-lg buttonSearch" type='submit'>Explore!</button>
         </Form>
 
         <Map
@@ -100,6 +104,7 @@ class App extends React.Component {
         <Weather showCard={this.state.showCard} weather={this.state.weather} ></Weather>
         <Movies showCard={this.state.showCard} movies={this.state.movies} ></Movies>
         <Footer/>
+        </section>
       </>
 
     )

@@ -1,5 +1,5 @@
 .buttonSearch{
-  width: 90%;
+  width: 89%;
   margin-bottom: 1%;
 }
 
@@ -7,6 +7,7 @@
 .inputButton{
   width: 70%;
   margin-bottom: 0.5%;
+  font-size: 20px;
 }
 strong{
   font-weight: bold;
@@ -18,4 +19,61 @@ strong{
 }
 .seachLabel{
   margin-right: 1%;
+}
+
+.backgroundColor{
+  background-color:#FDF6F0;
+}
+
+.cardMap{
+  background-color: #95E1D3;
+  color:rgb(66, 66, 66);
+}
+
+.buttonSearch{
+  background-color: #f37676;
+  border: none;
+  color: white;
+  text-align: center;
+  font-size: 25px;
+  opacity: 0.6;
+  transition: 0.3s;
+  display: inline-block;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.buttonSearch:hover {opacity: 1}
+
+.textCard{
+  background-color: #FEFDCA;
+  
+}
+.weatherText{
+  margin-bottom: 20px;
+  width: 60%;
+  margin-left: 21%;
+  color: #e2fcb5;
+
+  border-radius: 20px;
+}
+
+.weatherCard{
+  background-color: #e2fcb5;
+  color:rgb(66, 66, 66);
+  margin-bottom: 30px;
+  margin-top: 20px;
+}
+.weatherText2{
+  margin-bottom: 20px;
+  width: 60%;
+  margin-left: 21%;
+  color:#FDFFBC;
+
+  border-radius: 20px;
+}
+
+.textCardHead{
+  background-color:rgb(66, 66, 66);
+  color:#FDFFBC
 }
