@@ -2,10 +2,12 @@
 
 **Author**: Rahaf Al-Jazzazi
 
-**Version**: 1.0.4
+**Version**: 1.1.0
 
 ## Overview
 <!-- Provide a high level overview of what this application is and why you are building it, beyond the fact that it's an assignment for this class. (i.e. What's your problem domain?) -->
+City Explorer is a website that provides details like weather, movies reviews, places to visit etc.
+
 ![TEST](images/api.PNG)
 
 
